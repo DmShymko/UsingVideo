@@ -1,6 +1,9 @@
 package com.example.usingvideo;
 
+import android.net.Uri;
 import android.os.Bundle;
+import android.widget.MediaController;
+import android.widget.VideoView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -19,19 +22,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+//        String path="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+//        Uri uri=Uri.parse(path);
 
-        BottomNavigationView navView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(binding.navView, navController);
+        VideoView videoView = findViewById(R.id.videoView);
+        videoView.setVideoPath("android.resource://" + getPackageName() +
+                "/" + R.raw.dancing_man);
+        // videoView.setVideoURI(uri);
+
+        MediaController mediaController = new MediaController(this);
+        mediaController.setAnchorView(videoView);
+        videoView.setMediaController(mediaController);
+        videoView.start();
+
     }
-
 }
